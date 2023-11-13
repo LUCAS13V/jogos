@@ -1,3 +1,5 @@
+//colisao add
+
 const cnv = document.getElementById("cv");
 const ctx = cnv.getContext("2d");
 
@@ -5,7 +7,14 @@ console.log(`altura: ${cnv.width},\nlargura: ${cnv.height},` )
 //src da img
 const img =new Image();
 img.src="sprites.png";
-
+function coledir(obj1, obj2){
+    if(obj1.cnv_y+obj1.cnv_altura>=obj2.cnv_y){
+        //console.log("colediu")
+        return true;
+    }else{
+        return false;
+    }
+}
 function cria_flapy_bird(){
     const flapy_bird = {
         //imagem
@@ -25,8 +34,12 @@ function cria_flapy_bird(){
             flapy_bird.volocidade=-flapy_bird.pulo
         },
         update(){
-            flapy_bird.volocidade = flapy_bird.volocidade+flapy_bird.gravidade;
-            flapy_bird.cnv_y+=flapy_bird.volocidade;
+            if(coledir(flapy_bird,chao)){
+                return;
+            }else{
+                flapy_bird.volocidade = flapy_bird.volocidade+flapy_bird.gravidade;
+                flapy_bird.cnv_y+=flapy_bird.volocidade;
+            }
             
         },
         desenha(){
